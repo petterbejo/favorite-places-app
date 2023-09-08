@@ -1,7 +1,7 @@
 """
 The flask app to display all sites.
 """
-from flask import Flask, render_template_string
+from flask import Flask, render_template
 import folium
 
 from data_handler import DataHandler
@@ -24,77 +24,21 @@ def index():
             icon=folium.Icon()
             )
         marker.add_to(m)
-    return m.get_root().render()
 
-@app.route("/iframe")
-def iframe():
-    """Embed a map as an iframe on a page."""
-    m = folium.Map(location=[55.886298698145886, 12.310169834623752])
-
-    # set the iframe width and height
     m.get_root().width = "1000"
     m.get_root().height = "1200"
     iframe = m.get_root()._repr_html_()
 
-    return render_template_string(
-        """
-            <!DOCTYPE html>
-            <html>
-                <head></head>
-                <body>
-                    <h1>Using an iframe</h1>
-                    {{ iframe|safe }}
-                </body>
-            </html>
-        """,
-        iframe=iframe,
-    )
+    return render_template('index.html',
+                           num_places=len(all_markers),
+                           iframe=iframe)
 
-
-@app.route("/components")
-def components():
-    """Extract map components and put those on a page."""
-    m = folium.Map(
-        width=800,
-        height=600,
-    )
-
-    m.get_root().render()
-    header = m.get_root().header.render()
-    body_html = m.get_root().html.render()
-    script = m.get_root().script.render()
-
-    return render_template_string(
-        """
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    {{ header|safe }}
-                </head>
-                <body>
-                    <h1>Using components</h1>
-                    {{ body_html|safe }}
-                    <script>
-                        {{ script|safe }}
-                    </script>
-                </body>
-            </html>
-        """,
-        header=header,
-        body_html=body_html,
-        script=script,
-    )
-
-@app.route("/tst")
-def tst():
-    """View the front page."""
-    m = folium.Map(location=[55.886298698145886, 12.310169834623752])
-    marker = folium.Marker(
-        location=[55.73931038034454, 12.24586002073197], # coordinates for the marker (Earth Lab at CU Boulder)
-        popup='Earth Lab at CU Boulder', # pop-up label for the marker
-        icon=folium.Icon()
-    )
-    marker.add_to(m)
-
-    return m.get_root().render()
+@app.route("/list_all_markers")
+def list_all_markers():
+    """Show a tabular view of all places."""
+    handler = DataHandler(db_path)
+    all_markers = handler.get_all_markers()
+    return render_template('list_all_markers.html',
+                           num_places=len(all_markers),
+                           markers=all_markers)
 

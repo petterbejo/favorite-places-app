@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} List of favorite places{% endblock %}</h1>
+    <p>You have currently stored {{ num_places }} different places.</p>
+    <p><a href="{{ url_for('list_all_markers') }}">Go to list view</a></p>
+    <p>{{ iframe | safe }} </p>
+{% endblock %}
