@@ -17,6 +17,9 @@ class DataHandler():
         conn = self.get_db_connection()
         cur = conn.cursor()
         cur.execute('SELECT * FROM markers')
-        return cur.fetchall()
+        rows = cur.fetchall()
+        cur.close()
+        conn.cursor()
+        return rows
 
 
