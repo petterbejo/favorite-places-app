@@ -1,7 +1,12 @@
-import sqlite3
-
-from flask import Flask, render_template_string, redirect, url_for
+"""
+The flask app to display all sites.
+"""
+from flask import Flask, render_template_string
 import folium
+
+from data_handler import DataHandler
+
+db_path = '../db/test.db'
 
 app = Flask(__name__)
 
@@ -9,6 +14,16 @@ app = Flask(__name__)
 def index():
     """View the front page."""
     m = folium.Map(location=[55.886298698145886, 12.310169834623752])
+    handler = DataHandler(db_path)
+    all_markers = handler.get_all_markers()
+    print(all_markers)
+    for point in all_markers:
+        marker = folium.Marker(
+            location=[point[2], point[3]],
+            popup=point[1],
+            icon=folium.Icon()
+            )
+        marker.add_to(m)
     return m.get_root().render()
 
 @app.route("/iframe")
