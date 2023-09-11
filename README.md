@@ -25,7 +25,7 @@ You can store your favorite places with the following attributes:
 
 This development plan is actually more of a to do-list. I'm planning to do thing more or less in the order described here:
 
-1. View single marker on map
+1. Link to description of single marker from the map
 2. Create endpoint to add new markers one by one
 3. Create endpoint to upload a CSV with multiple markers
 4. Switch to postgres
