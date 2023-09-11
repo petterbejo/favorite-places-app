@@ -19,7 +19,7 @@ def index():
     print(all_markers)
     for point in all_markers:
         marker = folium.Marker(
-            location=[point[7], point[8]],
+            location=[point[-2], point[-1]],
             popup=point[1],
             icon=folium.Icon()
             )
