@@ -21,4 +21,14 @@ You can store your favorite places with the following attributes:
 9. Region within the country
 10. Location (using decimal degrees)
 
+## Development plan
 
+This development plan is actually more of a to do-list. I'm planning to do thing more or less in the order described here:
+
+1. View single marker on map
+2. Create endpoint to add new markers one by one
+3. Create endpoint to upload a CSV with multiple markers
+4. Switch to postgres
+5. Dockerize and deploy to start using it
+6. Make it possible to add photos
+7. Make it possible to add tracks (e.g. in GPX format) instead of single points only (maybe even with an export function)
