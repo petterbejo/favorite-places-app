@@ -22,4 +22,12 @@ class DataHandler():
         conn.cursor()
         return rows
 
+    def get_single_marker(self, id):
+        conn = self.get_db_connection()
+        cur = conn.cursor()
+        cur.execute(f'SELECT * FROM markers WHERE id={id}')
+        row = cur.fetchone()
+        cur.close()
+        conn.cursor()
+        return row
 

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} {{ favorite_place[1] }} {% endblock %}</h1>
+    <p>Category: {{ favorite_place[3] }}.  Region/country: {{ favorite_place[9] }}/{{
+        favorite_place[8] }}.  Distance to parking: {{ favorite_place[5] }} meters.  Rating: {{
+        favorite_place[6] }}. Visited: {{ favorite_place[7] }}.</p>
+    <p>{{ favorite_place[2] }}</p>
+    <p>Link: <a href="https://{{ favorite_place[4] }}" target="_blank">{{ favorite_place[4] }}</a></p>
+    <p>Coordinates: {{ favorite_place[-2] }} {{ favorite_place[-1] }}</p>
+    <p>{{ iframe | safe }} </p>
+<p></p>
+{% endblock %}

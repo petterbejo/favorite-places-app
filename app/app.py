@@ -42,3 +42,24 @@ def list_all_markers():
                            num_places=len(all_markers),
                            markers=all_markers)
 
+@app.route("/view_single_marker/<int:id>")
+def view_single_marker(id):
+    """Show a particular marker on the map in a new tab."""
+    handler = DataHandler(db_path)
+    favorite_place = handler.get_single_marker(id)
+    m = folium.Map(location=[favorite_place[-2], favorite_place[-1]],
+                   zoom_start=13)
+    marker = folium.Marker(
+            location=[favorite_place[-2], favorite_place[-1]],
+            popup=favorite_place[1],
+            icon=folium.Icon()
+            )
+    marker.add_to(m)
+    m.get_root().width = "1000"
+    m.get_root().height = "1200"
+    iframe = m.get_root()._repr_html_()
+
+    return render_template('view_single_marker.html',
+                           favorite_place=favorite_place,
+                           iframe=iframe)
+
