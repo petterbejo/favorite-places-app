@@ -20,7 +20,8 @@ def index():
     for point in all_markers:
         marker = folium.Marker(
             location=[point[-2], point[-1]],
-            popup=point[1],
+            popup=f'<a href="view_single_marker/{point[0]}" target="_parent"'
+                  f'>{point[1]}</a>',
             icon=folium.Icon()
             )
         marker.add_to(m)
