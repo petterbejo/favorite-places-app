@@ -32,3 +32,4 @@ This development plan is actually more of a to do-list. I'm planning to do thing
 5. Dockerize and deploy to start using it
 6. Make it possible to add photos
 7. Make it possible to add tracks (e.g. in GPX format) instead of single points only (maybe even with an export function)
+8. Make it possible to filter the list view
