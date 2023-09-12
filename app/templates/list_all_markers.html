@@ -4,20 +4,24 @@
     <h1>{% block title %} List of favorite places{% endblock %}</h1>
     <p>You have currently stored {{ num_places }} different places.</p>
     <table style="width:100%">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Acc. dist.</th>
+            <th>Rating</th>
+            <th>Visited</th>
+            <th>Country</th>
+            <th>Region</th>
+        </tr>
     {% for item in markers %}
             <tr>
-            <td>{{ item[0] }} </td>
-            <td>{{ item[1] }}</td>
-            <td>{{ item[2] }}</td>
+            <td><a href="{{ url_for('view_single_marker', id=item[0]) }}">{{ item[1] }}</td>
             <td>{{ item[3] }}</td>
-            <td><a href="https://{{ item[4] }}" target="_blank">{{ item[4] }}</a></td>
             <td>{{ item[5] }}</td>
             <td>{{ item[6] }}</td>
             <td>{{ item[7] }}</td>
             <td>{{ item[8] }}</td>
             <td>{{ item[9] }}</td>
-            <td>{{ item[10] }}</td>
-            <td>{{ item[11] }}</td>
             </tr>
     {% endfor %}
     </table>
