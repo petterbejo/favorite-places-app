@@ -12,7 +12,7 @@ You can store your favorite places with the following attributes:
 
 1. Name
 2. Description
-3. Category (can be fireplace, hike, scenic spot/general point of interest, museum, parking area)
+3. Category (can be fireplace, hike, scenic spot/general point of interest, museum, parking area, other)
 4. Link to the place
 5. Distance to nearest road/place that is accesible by car
 6. Rating (1-3)
