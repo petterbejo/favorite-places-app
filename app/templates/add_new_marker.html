@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Insert a new favorite place</h1>
+
+<form action="{{ url_for('insert_new_marker') }}" method=post>
+    <label for="name">Name</label>
+    <br>
+    <input type="text" name="name" placeholder="Name of the favorite place"
+           value="{{ request.form['name'] }}"></input>
+    <br> <br>
+    <label for="description">Description</label>
+    <br>
+    <textarea name="Description" placeholder="Describe the favorite place"
+              rows="15" cols="30"
+              value="{{ request.form['description'] }}"></textarea>
+    <br><br>
+    <label for="category">Category</label>
+    <br>
+    <SELECT name="category">{% for c in categories %}
+    <OPTION value={{c[0]}}>{{c[1]}}</option>
+    {% endfor %}
+    </SELECT>
+    <label for="link">Link</label>
+    <br>
+    <input type="text" name="link"
+           placeholder="Insert a link" value="{{ request.form['link'] }}"></input>
+    <br> <br>
+    </form>
+
+<p></p>
+<p><a href="{{ url_for('index') }}">Go back to the front page</a> </p>
+
+{% endblock %}

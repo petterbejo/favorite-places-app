@@ -64,3 +64,15 @@ def view_single_marker(id):
                            favorite_place=favorite_place,
                            iframe=iframe)
 
+@app.route("/add_new_marker")
+def add_new_marker():
+    """View page to insert a single new marker into the database."""
+    categories = DataHandler(db_path).get_all_categories()
+    return render_template('add_new_marker.html',
+                           categories=categories)
+
+@app.route('/insert_new_marker', methods=("GET", "POST"))
+def insert_new_marker():
+    """Inserts the manually added marker into the database."""
+    print('hest')
+    return render_template('index.html')

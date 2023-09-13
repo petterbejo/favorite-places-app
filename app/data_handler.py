@@ -13,6 +13,16 @@ class DataHandler():
         """Open a connection to the database."""
         return sqlite3.connect(self.db_path)
 
+    def get_all_categories(self):
+        conn = self.get_db_connection()
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM categories')
+        rows = cur.fetchall()
+        cur.close()
+        conn.cursor()
+        return rows
+
+
     def get_all_markers(self):
         conn = self.get_db_connection()
         cur = conn.cursor()
