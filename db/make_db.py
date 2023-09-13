@@ -11,7 +11,7 @@ create_markers_table = """ CREATE TABLE IF NOT EXISTS markers (
                                     id INTEGER PRIMARY KEY,
                                     name TEXT NOT NULL,
                                     description TEXT,
-                                    category TEXT NOT NULL,
+                                    category INTEGER NOT NULL,
                                     link TEXT,
                                     access_distance INTEGER,
                                     rating INTEGER,
@@ -22,10 +22,16 @@ create_markers_table = """ CREATE TABLE IF NOT EXISTS markers (
                                     DD_longitude REAL NOT NULL
                                 ); """
 
+create_categories_table = """ CREATE TABLE IF NOT EXISTS categories (
+                                    id INTEGER PRIMARY KEY,
+                                    category TEXT NOT NULL
+                                ); """
+
 c = conn.cursor()
 c.execute(create_markers_table)
+c.execute(create_categories_table)
 
-records = [
+markers = [
     (1, 'test1', 'nice place', 'fireplace', 'example.com', 50, 2, 1, 'dk',
      'sj',
      55.73931038034454, 12.24586002073197),
@@ -34,8 +40,20 @@ records = [
     (3, 'test3', 'long hike', 'hike', 'example.com', 100, 2, 1, 'dk',  'sj',
      56.73931038034454, 12.24586002073197),
     ]
+
+categories =[
+    (1, 'Fireplace'),
+    (2, 'Hike'),
+    (3, 'Nice spot'),
+    (5, 'Museum'),
+    (6, 'Parking area'),
+    (7, 'Other'),
+]
+
 c.executemany('INSERT INTO markers VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-              records)
+              markers)
+c.executemany('INSERT INTO categories VALUES(?, ?);',
+              categories)
 
 conn.commit()
 conn.close()
