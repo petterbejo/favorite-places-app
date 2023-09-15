@@ -2,15 +2,15 @@
 {% block content %}
 <h1>Insert a new favorite place</h1>
 
-<form action="{{ url_for('insert_new_marker') }}" method=post>
+<form action="{{ url_for('submit_data') }}" method=post>
     <label for="name">Name*:</label>
     <br>
     <input type="text" name="name" placeholder="Name of the favorite place"
-           value="{{ request.form['name'] }}"></input>
+           value="{{ request.form['name'] }}">
     <br> <br>
     <label for="description">Description</label>
     <br>
-    <textarea name="Description" placeholder="Describe the favorite place"
+    <textarea name="description" placeholder="Describe the favorite place"
               rows="15" cols="30"
               value="{{ request.form['description'] }}"></textarea>
     <br><br>
@@ -18,48 +18,54 @@
     <label for="link">Description Link:</label>
     <br>
     <input type="text" name="link"
-           placeholder="Insert a link" value="{{ request.form['link'] }}"></input>
+           placeholder="Insert a link" value="{{ request.form['link'] }}">
     <br> <br>
     <br> <br>
 
     <label for="category">Category*:</label>
-    <SELECT name="category">{% for c in categories %}
+    <select name="category">{% for c in categories %}
     <OPTION value={{c[0]}}>{{c[1]}}</option>
     {% endfor %}
-    </SELECT>
+    </select>
     <br> <br>
 
     <label for="rating">Rating:  </label>
-    <SELECT name="rating">{% for r in range(1, 4) %}
-    <OPTION value={{r}}>{{r}}</option>
+    <select name="rating">{% for r in range(1, 4) %}
+    <option value={{r}}>{{r}}</option>
     {% endfor %}
-    </SELECT>
+    </select>
     <br> <br>
 
     <label for="visited">Already visited (1 for yes, 0 for no)?</label>
-    <SELECT name="visited">{% for r in range(2) %}
-        <OPTION value={{r}}>{{r}}</option>
+    <select name="visited">{% for r in range(2) %}
+        <option value={{r}}>{{r}}</option>
     {% endfor %}
-    </SELECT>
+    </select>
     <br><br>
 
+    <label for="access_distance">Access distance:</label>
+    <input type="text" name="access_distance"
+           placeholder="Distance to nearest parking area" value="{{
+            request.form['access_distance']
+            }}">
+    <br> <br>
 
     <label for="country_code">Country code*:</label>
     <input type="text" name="country_code"
            placeholder="country code" value="{{ request.form['country_code']
-            }}"></input>
+            }}">
     <br> <br>
 
     <label for="region">Region:</label>
     <input type="text" name="region"
            placeholder="region" value="{{ request.form['region']
-            }}"></input>
+            }}">
     <br> <br>
 
     <label for="location">Location (in decimal degrees)*:</label>
     <input type="text" name="location"
            placeholder="e.g. 55.70968740504555, 12.495208156145383" value="{{ request.form['location']
-            }}"></input>
+            }}">
     <br> <br>
     <input type=submit value=Save>
     </form>

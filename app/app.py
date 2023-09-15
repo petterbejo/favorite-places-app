@@ -1,7 +1,7 @@
 """
 The flask app to display all sites.
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import folium
 
 from data_handler import DataHandler
@@ -71,8 +71,9 @@ def add_new_marker():
     return render_template('add_new_marker.html',
                            categories=categories)
 
-@app.route('/insert_new_marker', methods=("GET", "POST"))
-def insert_new_marker():
+@app.route('/submit_data', methods=(["POST"]))
+def submit_data():
     """Inserts the manually added marker into the database."""
-    print('hest')
+    handler = DataHandler(db_path)
+    handler.insert_new_single_marker(request.form)
     return render_template('index.html')
