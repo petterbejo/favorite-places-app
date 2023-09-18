@@ -62,9 +62,10 @@
             }}">
     <br> <br>
 
-    <label for="location">Location (in decimal degrees)*:</label>
+    <label for="location">Location in decimal degrees, separated by a comma
+        (e.g. 55.70968740504555, 12.495208156145383)*:</label>
     <input type="text" name="location"
-           placeholder="e.g. 55.70968740504555, 12.495208156145383" value="{{ request.form['location']
+           placeholder="location" value="{{ request.form['location']
             }}">
     <br> <br>
     <input type=submit value=Save>
