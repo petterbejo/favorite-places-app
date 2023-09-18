@@ -27,9 +27,9 @@ create_categories_table = """ CREATE TABLE IF NOT EXISTS categories (
                                     category TEXT NOT NULL
                                 ); """
 
-c = conn.cursor()
-c.execute(create_markers_table)
-c.execute(create_categories_table)
+cur = conn.cursor()
+cur.execute(create_markers_table)
+cur.execute(create_categories_table)
 
 markers = [
     (1, 'test1', 'nice place', 'fireplace', 'example.com', 50, 2, 1, 'dk',
@@ -50,9 +50,9 @@ categories =[
     (7, 'Other'),
 ]
 
-c.executemany('INSERT INTO markers VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+cur.executemany('INSERT INTO markers VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
               markers)
-c.executemany('INSERT INTO categories VALUES(?, ?);',
+cur.executemany('INSERT INTO categories VALUES(?, ?);',
               categories)
 
 conn.commit()
