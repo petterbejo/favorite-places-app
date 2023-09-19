@@ -75,5 +75,7 @@ class DataHandler():
             cur.execute(data_insert_str)
             conn.commit()
             conn.close()
-        except Exception as e:
-            print(e)
+        except Exception:
+            raise Exception('Something went wrong. Probably some of your data '
+                            'was not formatted correctly.')
+

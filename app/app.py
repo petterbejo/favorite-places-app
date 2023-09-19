@@ -75,5 +75,9 @@ def add_new_marker():
 def submit_data():
     """Inserts the manually added marker into the database."""
     handler = DataHandler(db_path)
-    handler.insert_new_single_marker(request.form)
-    return render_template('index.html')
+    try:
+        handler.insert_new_single_marker(request.form)
+        return render_template('index.html')
+    except Exception as e:
+        return render_template('insert_error.html')
+
