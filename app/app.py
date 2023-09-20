@@ -6,15 +6,13 @@ import folium
 
 from data_handler import DataHandler
 
-db_path = '../db/test.db'
-
 app = Flask(__name__)
 
 @app.route("/")
 def index():
     """View the front page."""
     m = folium.Map(location=[55.886298698145886, 12.310169834623752])
-    handler = DataHandler(db_path)
+    handler = DataHandler()
     all_markers = handler.get_all_markers()
     print(all_markers)
     for point in all_markers:
@@ -37,7 +35,7 @@ def index():
 @app.route("/list_all_markers")
 def list_all_markers():
     """Show a tabular view of all places."""
-    handler = DataHandler(db_path)
+    handler = DataHandler()
     all_markers = handler.get_all_markers()
     return render_template('list_all_markers.html',
                            num_places=len(all_markers),
@@ -46,7 +44,7 @@ def list_all_markers():
 @app.route("/view_single_marker/<int:id>")
 def view_single_marker(id):
     """Show a particular marker on the map in a new tab."""
-    handler = DataHandler(db_path)
+    handler = DataHandler()
     favorite_place = handler.get_single_marker(id)
     m = folium.Map(location=[favorite_place[-2], favorite_place[-1]],
                    zoom_start=13)
@@ -67,14 +65,14 @@ def view_single_marker(id):
 @app.route("/add_new_marker")
 def add_new_marker():
     """View page to insert a single new marker into the database."""
-    categories = DataHandler(db_path).get_all_categories()
+    categories = DataHandler().get_all_categories()
     return render_template('add_new_marker.html',
                            categories=categories)
 
 @app.route('/submit_data', methods=(["POST"]))
 def submit_data():
     """Inserts the manually added marker into the database."""
-    handler = DataHandler(db_path)
+    handler = DataHandler()
     try:
         handler.insert_new_single_marker(request.form)
         return render_template('index.html')

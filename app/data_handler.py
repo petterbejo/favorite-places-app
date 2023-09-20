@@ -1,17 +1,20 @@
 """
 The DataHandler class that interacts with the database and the flask app.
 """
-import sqlite3
+import os
 
-db_path = '../db/test.db'
+import psycopg2
 
 class DataHandler():
-    def __init__(self, db_path):
-        self.db_path = db_path
+    def __init__(self):
+        self.conn_str = f'host={"db"} port=5432 '\
+                        f'dbname={os.environ.get("POSTGRES_DB")} '\
+                        f'user={os.environ.get("POSTGRES_USER")} '\
+                        f'password={os.environ.get("POSTGRES_PASSWORD")}'
 
     def _get_db_connection(self):
         """Open a connection to the database."""
-        return sqlite3.connect(self.db_path)
+        return psycopg2.connect(self.conn_str)
 
     def _format_location(self, location):
         """Checks that the location is formatted in decimal degrees.
@@ -37,7 +40,8 @@ class DataHandler():
     def get_all_markers(self):
         conn = self._get_db_connection()
         cur = conn.cursor()
-        cur.execute('SELECT * FROM markers')
+        query = """SELECT * FROM markers"""
+        cur.execute(query)
         rows = cur.fetchall()
         cur.close()
         conn.cursor()
@@ -46,7 +50,8 @@ class DataHandler():
     def get_single_marker(self, id):
         conn = self._get_db_connection()
         cur = conn.cursor()
-        cur.execute(f'SELECT * FROM markers WHERE id={id}')
+        query = """SELECT * FROM markers WHERE id = %s"""
+        cur.execute(query, (id, ))
         row = cur.fetchone()
         cur.close()
         conn.cursor()
@@ -56,19 +61,18 @@ class DataHandler():
         try:
             latitude, longitude = self._format_location(
                 insert_dict['location'])
-            data_insert_str = (f"""INSERT INTO markers (name, description, """
-                       f"""category, link, access_distance, rating, visited, """
-                       f"""country_code, region, DD_latitude, DD_longitude) """
-                       f"""VALUES ('{insert_dict["name"]}', """
-                       f"""'{insert_dict["description"]}', """ 
-                       f"""'{insert_dict["category"]}', """
-                       f"""'{insert_dict["link"]}', """
-                       f"""'{insert_dict["access_distance"]}', """
-                       f"""'{insert_dict["rating"]}', '{insert_dict["visited"]}', """
-                       f"""'{insert_dict["country_code"]}', """
-                       f"""'{insert_dict["region"]}', """
-                       f"""'{latitude}', """
-                       f"""'{longitude}' )""")
+            data_insert_str = \
+                (f"""INSERT INTO markers """
+                     f"""(name, description, category, link, """
+                     f"""access_distance, rating, visited, """
+                     f"""country_code, region, DD_latitude, DD_longitude) """
+                 f"""VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                [insert_dict["name"], insert_dict["description"],
+                 insert_dict["category"], insert_dict["link"],
+                 insert_dict["access_distance"], insert_dict["rating"],
+                 insert_dict["visited"],insert_dict["country_code"],
+                 insert_dict["region"],latitude, longitude]
+                 )
             print(data_insert_str)
             conn = self._get_db_connection()
             cur = conn.cursor()
