@@ -4,7 +4,7 @@ This app is a simple way to mark your favorite places and display them on a map 
 
 The app is made with Flask, folium, and a SQL database. It is currently in development. The plan is to dockerize the whole thing. 
 
-Note that the database tables are created the first time the site is loaded since the setup script is part of the DataHandler class. In this way, you can simply spin up the app with the `docker-compose.yaml` file. This will pull the image from my repo and the PostgreSQL repo on Docker Hub. Three environment variables should be set beforehand: PGDB for the database, PDPWD for the database password, and PGUSR for the database user (I will maybe change this to Docker Secrets at some point).
+Note that the database tables are created the first time the site is loaded since the setup script is part of the DataHandler class. In this way, you can simply spin up the app with the `docker-compose.yaml` file. This will pull the image from my repo and the PostgreSQL repo on Docker Hub. Three environment variables should be set beforehand: PGDB for the database, PDPWD for the database password, and PGUSR for the database user (I will maybe change this to Docker Secrets at some point). I've decided to make the setup script part of the DataHandler class because it allows for simpler packaging of the app since all you need is one file, `docker-compose.yaml`.
 
 ## How to use
 

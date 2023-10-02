@@ -11,6 +11,49 @@ class DataHandler():
                         f'dbname={os.environ.get("POSTGRES_DB")} '\
                         f'user={os.environ.get("POSTGRES_USER")} '\
                         f'password={os.environ.get("POSTGRES_PASSWORD")}'
+        if not self._database_exists():
+            self._setup_database()
+
+    def _database_exists(self):
+        try:
+            rows = self.get_all_markers()
+            if rows:
+                return True
+        except Exception:
+            return False
+
+    def _setup_database(self):
+        conn = self._get_db_connection()
+        cur = conn.cursor()
+
+        create_markers_table = \
+                """CREATE TABLE IF NOT EXISTS markers (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                description TEXT,
+                category INTEGER NOT NULL,
+                link TEXT,
+                access_distance INTEGER,
+                rating INTEGER,
+                visited INTEGER,
+                country_code TEXT NOT NULL,
+                region TEXT,
+                DD_latitude REAL NOT NULL,
+                DD_longitude REAL NOT NULL
+                );"""
+        cur.execute(create_markers_table)
+
+        create_categories_table = \
+                """CREATE TABLE IF NOT EXISTS categories (
+                id SERIAL PRIMARY KEY,
+                category TEXT NOT NULL
+                );"""
+        cur.execute(create_categories_table)
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
 
     def _get_db_connection(self):
         """Open a connection to the database."""
@@ -27,14 +70,13 @@ class DataHandler():
         longitude = location_split[1].replace(' ', '')
         return latitude, longitude
 
-
     def get_all_categories(self):
         conn = self._get_db_connection()
         cur = conn.cursor()
         cur.execute('SELECT * FROM categories')
         rows = cur.fetchall()
         cur.close()
-        conn.cursor()
+        conn.close()
         return rows
 
     def get_all_markers(self):
@@ -44,7 +86,7 @@ class DataHandler():
         cur.execute(query)
         rows = cur.fetchall()
         cur.close()
-        conn.cursor()
+        conn.close()
         return rows
 
     def get_single_marker(self, id):
@@ -54,7 +96,7 @@ class DataHandler():
         cur.execute(query, (id, ))
         row = cur.fetchone()
         cur.close()
-        conn.cursor()
+        conn.close()
         return row
 
     def insert_new_single_marker(self, insert_dict):
@@ -73,7 +115,6 @@ class DataHandler():
                  insert_dict["visited"],insert_dict["country_code"],
                  insert_dict["region"],latitude, longitude]
                  )
-            print(data_insert_str)
             conn = self._get_db_connection()
             cur = conn.cursor()
             cur.execute(data_insert_str)
