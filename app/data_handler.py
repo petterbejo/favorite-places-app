@@ -82,7 +82,28 @@ class DataHandler():
     def get_all_markers(self):
         conn = self._get_db_connection()
         cur = conn.cursor()
-        query = """SELECT * FROM markers"""
+        query = """
+                    SELECT
+                        markers.id,
+                        markers.name,
+                        markers.description,
+                        categories.category,
+                        markers.link,
+                        markers.access_distance,
+                        markers.rating,
+                        markers.visited,
+                        markers.country_code,
+                        markers.region,
+                        markers.DD_latitude,
+                        markers.DD_longitude
+                    FROM
+                        markers
+                    INNER JOIN
+                        categories
+                    ON
+                        markers.category = categories.id
+                    ORDER BY markers.country_code, markers.region;
+                """
         cur.execute(query)
         rows = cur.fetchall()
         cur.close()
@@ -92,7 +113,27 @@ class DataHandler():
     def get_single_marker(self, id):
         conn = self._get_db_connection()
         cur = conn.cursor()
-        query = """SELECT * FROM markers WHERE id = %s"""
+        query = """SELECT
+                        markers.id,
+                        markers.name,
+                        markers.description,
+                        categories.category,
+                        markers.link,
+                        markers.access_distance,
+                        markers.rating,
+                        markers.visited,
+                        markers.country_code,
+                        markers.region,
+                        markers.DD_latitude,
+                        markers.DD_longitude
+                    FROM
+                        markers 
+                    INNER JOIN
+                        categories
+                    ON
+                        markers.category = categories.id
+                    WHERE markers.id = %s;
+                """
         cur.execute(query, (id, ))
         row = cur.fetchone()
         cur.close()
@@ -103,21 +144,21 @@ class DataHandler():
         try:
             latitude, longitude = self._format_location(
                 insert_dict['location'])
-            data_insert_str = \
-                (f"""INSERT INTO markers """
-                     f"""(name, description, category, link, """
-                     f"""access_distance, rating, visited, """
-                     f"""country_code, region, DD_latitude, DD_longitude) """
-                 f"""VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                [insert_dict["name"], insert_dict["description"],
-                 insert_dict["category"], insert_dict["link"],
-                 insert_dict["access_distance"], insert_dict["rating"],
-                 insert_dict["visited"],insert_dict["country_code"],
-                 insert_dict["region"],latitude, longitude]
-                 )
+            data_insert_str = """INSERT INTO markers """ \
+                        """(name, description, category, link, """ \
+                        """access_distance, rating, visited, """ \
+                        """country_code, region, """ \
+                        """DD_latitude, DD_longitude) """ \
+                        """VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
             conn = self._get_db_connection()
             cur = conn.cursor()
-            cur.execute(data_insert_str)
+            cur.execute(data_insert_str,
+                        [insert_dict["name"], insert_dict["description"],
+                         insert_dict["category"], insert_dict["link"],
+                         insert_dict["access_distance"], insert_dict["rating"],
+                         insert_dict["visited"], insert_dict["country_code"],
+                         insert_dict["region"], latitude, longitude]
+                        )
             conn.commit()
             conn.close()
         except Exception:
