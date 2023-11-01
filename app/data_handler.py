@@ -7,10 +7,11 @@ import psycopg2
 
 class DataHandler():
     def __init__(self):
-        self.conn_str = f'host={"db"} port=5432 '\
-                        f'dbname={os.environ.get("POSTGRES_DB")} '\
-                        f'user={os.environ.get("POSTGRES_USER")} '\
-                        f'password={os.environ.get("POSTGRES_PASSWORD")}'
+        self.conn_str = (f'host={os.environ.get("DB_HOST")} '\
+                         f'port={os.environ.get("DB_PORT")} '\
+                         f'dbname={os.environ.get("POSTGRES_DB")} '\
+                         f'user={os.environ.get("POSTGRES_USER")} '\
+                         f'password={os.environ.get("POSTGRES_PASSWORD")}')
         if not self._database_exists():
             self._setup_database()
 
@@ -50,10 +51,20 @@ class DataHandler():
                 );"""
         cur.execute(create_categories_table)
 
+        insert_categories = \
+                """ INSERT INTO categories(category)
+                    VALUES
+                         ('Fireplace'),
+                         ('Hike'),
+                         ('Nice spot'),
+                         ('Museum'),
+                         ('Parking area'),
+                         ('Other');"""
+        cur.execute(insert_categories)
+
         conn.commit()
         cur.close()
         conn.close()
-
 
     def _get_db_connection(self):
         """Open a connection to the database."""
