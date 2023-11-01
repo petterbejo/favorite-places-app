@@ -17,7 +17,13 @@ class DataHandler():
 
     def _database_exists(self):
         try:
-            rows = self.get_all_markers()
+            conn = self._get_db_connection()
+            cur = conn.cursor()
+            query = """SELECT * FROM categories"""
+            cur.execute(query)
+            rows = cur.fetchall()
+            cur.close()
+            conn.close()
             if rows:
                 return True
         except Exception:
