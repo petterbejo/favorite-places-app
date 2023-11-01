@@ -1,7 +1,7 @@
 """
 The flask app to display all sites.
 """
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import folium
 
 from data_handler import DataHandler
@@ -75,7 +75,7 @@ def submit_data():
     handler = DataHandler()
     try:
         handler.insert_new_single_marker(request.form)
-        return render_template('index.html')
+        return redirect("/")
     except Exception as e:
         return render_template('insert_error.html')
 
