@@ -3,17 +3,36 @@ services:
   db:
     image: postgres
     restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    secrets:
+      - db_password
     environment:
-      - POSTGRES_DB=${PGDB}
-      - POSTGRES_USER=${PGUSR}
-      - POSTGRES_PASSWORD=${PGPWD}}
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
 
   app:
-    image: petterbejo/favorite-places-app
+    build: app
     restart: always
+    depends_on:
+      - db
     ports:
       - 5000:8000
+    secrets:
+      - db_password
     environment:
-      - POSTGRES_DB=${PGDB}
-      - POSTGRES_USER=${PGUSR}
-      - POSTGRES_PASSWORD=${PGPWD}}
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
+
+volumes:
+  db-data:
+
+secrets:
+  db_password:
+    file: db_password.txt

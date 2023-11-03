@@ -11,9 +11,20 @@ class DataHandler():
                          f'port={os.environ.get("DB_PORT")} '\
                          f'dbname={os.environ.get("POSTGRES_DB")} '\
                          f'user={os.environ.get("POSTGRES_USER")} '\
-                         f'password={os.environ.get("POSTGRES_PASSWORD")}')
+                         f'password={self._get_db_password()}')
         if not self._database_exists():
             self._setup_database()
+
+    def _get_db_password(self):
+        """Get the DB password from the Docker secret"""
+        secret_path = os.environ.get("POSTGRES_PASSWORD_FILE")
+        with open(secret_path) as pwd_file:
+            pwd = pwd_file.read()
+        return pwd
+
+    def _get_db_connection(self):
+        """Open a connection to the database."""
+        return psycopg2.connect(self.conn_str)
 
     def _database_exists(self):
         try:
@@ -71,10 +82,6 @@ class DataHandler():
         conn.commit()
         cur.close()
         conn.close()
-
-    def _get_db_connection(self):
-        """Open a connection to the database."""
-        return psycopg2.connect(self.conn_str)
 
     def _format_location(self, location):
         """Checks that the location is formatted in decimal degrees.

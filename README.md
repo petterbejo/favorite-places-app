@@ -27,8 +27,8 @@ You can store your favorite places with the following attributes:
 
 This development plan is actually more of a to do-list. I'm planning to do thing more or less in the order described here:
 
-1. Set up volume for the db
 1. Deploy to start using it
+3. Make confirmation page when inserting new marker
 3. Create endpoint to upload a CSV with multiple markers
 6. Make it possible to add more than one link
 6. Make it possible to add photos
