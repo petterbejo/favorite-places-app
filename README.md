@@ -8,6 +8,12 @@ Note that the database tables are created the first time the site is loaded sinc
 
 ## How to use
 
+The simplest way is to create a password file called `db_password.txt`, put 
+the `docker-compose.yaml` file in the same directory and simply run 
+`docker-compose up -d`. This pulls the images from Docker Hub and runs the 
+app. If you want to build yourself clone the repo and use the `docker-compose.
+dev.yaml` instead.
+
 ### The database
 
 You can store your favorite places with the following attributes:
