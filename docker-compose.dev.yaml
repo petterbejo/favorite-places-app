@@ -15,7 +15,7 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
 
   app:
-    image: petterbejo/favorite-places-app-app:latest
+    build: app
     restart: always
     depends_on:
       - db
