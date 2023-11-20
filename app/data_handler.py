@@ -76,6 +76,8 @@ class DataHandler():
                          ('Nice spot'),
                          ('Museum'),
                          ('Parking area'),
+                         ('Park/forest'),
+                         ('Road'),
                          ('Other');"""
         cur.execute(insert_categories)
 
