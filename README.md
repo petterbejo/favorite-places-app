@@ -16,7 +16,7 @@ The listing page:
 
 Example of a page of a single favorite place (called "marker" in the app):
 
-![Alt text](main_page.png "The main page")
+![Alt text](single_marker_example.png "A single marker page")
 
 ## How to use
 
