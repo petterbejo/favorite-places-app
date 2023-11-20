@@ -2,7 +2,21 @@
 
 This app is a simple way to mark your favorite places and display them on a map along with a description. 
 
-The app is made with Flask, folium, and a SQL database. It is currently in development. The plan is to dockerize the whole thing. 
+The app is made with Flask, folium, and a SQL database. The app is more or at less at the MVP stage, but I'm still in the process of developing some of the core functionalitites.
+
+Here are some screenshots to give you an idea what the app is for:
+
+The main page:
+
+![Alt text](main_page.png "The main page")
+
+The listing page:
+
+![Alt text](list_page.png "The list page")
+
+Example of a page of a single favorite place (called "marker" in the app):
+
+![Alt text](main_page.png "The main page")
 
 ## How to use
 
